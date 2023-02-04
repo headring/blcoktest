@@ -4,6 +4,12 @@ interface Products {
   [index: string]: string | number | string[];
 }
 
+interface Props {
+  products: Products[];
+  offset: number;
+  limit: number;
+}
+
 const tableHeaders = [
   "상품번호",
   "상품명",
@@ -14,7 +20,7 @@ const tableHeaders = [
   "재고",
 ];
 
-const Table = ({ products }: { products: Products[] }) => {
+const Table = ({ products, offset, limit }: Props) => {
   return (
     <table>
       <thead>
@@ -25,8 +31,8 @@ const Table = ({ products }: { products: Products[] }) => {
         </tr>
       </thead>
       <tbody>
-        {products.map((product, idx) => (
-          <tr>
+        {products.slice(offset, offset + limit).map((product, idx) => (
+          <tr key={idx}>
             <td>{product.id}</td>
             <td>{product.title}</td>
             <td>{product.brand}</td>

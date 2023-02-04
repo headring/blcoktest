@@ -4,7 +4,7 @@ import Search from "./components/Search";
 import Table from "./components/Table";
 import useDataFetch from "./useDataFetch";
 
-interface Products {
+export interface Products {
   [index: string]: string | number | string[];
 }
 const tableHeaders = [
@@ -18,22 +18,35 @@ const tableHeaders = [
 ];
 
 function App() {
+  // const [skip, setSkip] = useState(0);
   const [products, setProducts] = useState<Products[]>([]);
   const [limit, setLimit] = useState(10);
-  const [skip, setSkip] = useState(0);
-  const { refetch, isSuccess, data } = useDataFetch(limit, skip);
+  const [page, setPage] = useState(1);
+  const [total, setTotal] = useState<number>(0);
+  const offset = (page - 1) * limit;
+
+  const { refetch, isSuccess, data } = useDataFetch();
   useEffect(() => {
-    if (data) setProducts(data.products);
+    if (data) {
+      setProducts(data.products);
+      setTotal(data.products.length);
+    }
   }, [isSuccess, data]);
-  useEffect(() => {
-    refetch();
-  }, [limit, skip]);
+  // useEffect(() => {
+  //   refetch();
+  // }, [limit, skip]);
   return (
     <div>
       <Search />
-      <div>검색한 테이터: {products.length}건</div>
-      <Table products={products} />
-      <Pagination limit={limit} setLimit={setLimit} />
+      <div>검색한 테이터: {total}건</div>
+      <Table offset={offset} products={products} limit={limit} />
+      <Pagination
+        total={total}
+        limit={limit}
+        setLimit={setLimit}
+        page={page}
+        setPage={setPage}
+      />
     </div>
   );
 }
