@@ -20,12 +20,14 @@ const tableHeaders = [
 function App() {
   const [products, setProducts] = useState<Products[]>([]);
   const [limit, setLimit] = useState(10);
-  const { isSuccess, data } = useDataFetch();
-  console.log(limit);
+  const [skip, setSkip] = useState(0);
+  const { refetch, isSuccess, data } = useDataFetch(limit, skip);
   useEffect(() => {
     if (data) setProducts(data.products);
   }, [isSuccess, data]);
-  console.log(products);
+  useEffect(() => {
+    refetch();
+  }, [limit, skip]);
   return (
     <div>
       <Search />
