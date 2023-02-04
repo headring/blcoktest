@@ -1,20 +1,16 @@
 import { useQuery } from "@tanstack/react-query";
 
-interface Assemble {
-  limit: number;
-  skip: number;
-}
-
-const fetchFunction = async (limit: number, skip: number) => {
-  const url = `https://dummyjson.com/products?limit=${limit}&skip=${skip}`;
+const fetchFunction = async () => {
+  // const url = `https://dummyjson.com/products?limit=${limit}&skip=${skip}`;
+  const url = "https://dummyjson.com/products?limit=100";
   return await fetch(url)
     .then((res) => res.json())
     .then((data) => data);
 };
 
-const useDataFetch = (limit: number, skip: number) => {
-  return useQuery(["get/DataFetch"], () => fetchFunction(limit, skip), {
-    enabled: false,
+const useDataFetch = () => {
+  return useQuery(["get/DataFetch"], () => fetchFunction(), {
+    // enabled: false,
     cacheTime: 5 * 6000,
     staleTime: 5 * 6000,
     onSuccess: (res) => {
