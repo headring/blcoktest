@@ -14,7 +14,7 @@ const tableHeaders = [
   "재고",
 ];
 
-export const Table = ({ products }: { products: Products[] }) => {
+const Table = ({ products }: { products: Products[] }) => {
   return (
     <table>
       <thead>
@@ -40,3 +40,4 @@ export const Table = ({ products }: { products: Products[] }) => {
     </table>
   );
 };
+export default Table;

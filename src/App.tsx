@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
-import { Table } from "./components/Table";
+import { Pagination } from "./components/Pagination";
+import Search from "./components/Search";
+import Table from "./components/Table";
 import useDataFetch from "./useDataFetch";
 
 interface Products {
@@ -17,14 +19,19 @@ const tableHeaders = [
 
 function App() {
   const [products, setProducts] = useState<Products[]>([]);
+  const [limit, setLimit] = useState(10);
   const { isSuccess, data } = useDataFetch();
+  console.log(limit);
   useEffect(() => {
     if (data) setProducts(data.products);
   }, [isSuccess, data]);
   console.log(products);
   return (
     <div>
+      <Search />
+      <div>검색한 테이터: {products.length}건</div>
       <Table products={products} />
+      <Pagination limit={limit} setLimit={setLimit} />
     </div>
   );
 }
