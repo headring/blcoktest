@@ -1,11 +1,8 @@
 import React from "react";
-
-interface Products {
-  [index: string]: string | number | string[];
-}
+import { Products } from "../App";
 
 interface Props {
-  products: Products[];
+  renderProducts: Products[];
   offset: number;
   limit: number;
 }
@@ -20,7 +17,7 @@ const tableHeaders = [
   "재고",
 ];
 
-const Table = ({ products, offset, limit }: Props) => {
+const Table = ({ renderProducts, offset, limit }: Props) => {
   return (
     <table>
       <thead>
@@ -31,12 +28,15 @@ const Table = ({ products, offset, limit }: Props) => {
         </tr>
       </thead>
       <tbody>
-        {products.slice(offset, offset + limit).map((product, idx) => (
+        {renderProducts.slice(offset, offset + limit).map((product, idx) => (
           <tr key={idx}>
             <td>{product.id}</td>
             <td>{product.title}</td>
             <td>{product.brand}</td>
-            <td>{product.description}</td>
+            <td className="description">
+              {product.description.slice(0, 40)}
+              {product.description.length > 40 && "..."}
+            </td>
             <td>{product.price}</td>
             <td>{product.rating}</td>
             <td>{product.stock}</td>
