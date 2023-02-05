@@ -11,8 +11,8 @@ const fetchFunction = async () => {
 const useDataFetch = () => {
   return useQuery(["get/DataFetch"], () => fetchFunction(), {
     // enabled: false,
-    cacheTime: 5 * 6000,
-    staleTime: 5 * 6000,
+    cacheTime: Infinity,
+    staleTime: Infinity,
     onSuccess: (res) => {
       console.log(res);
     },
