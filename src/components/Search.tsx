@@ -61,7 +61,6 @@ const Search = ({
     mounted.current = true;
   };
   useEffect(() => {
-    console.log(mounted);
     if (mounted.current) {
       console.log("why");
       const prevResult = JSON.stringify(renderProducts);
