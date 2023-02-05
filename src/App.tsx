@@ -3,7 +3,6 @@ import { Pagination } from "./components/Pagination";
 import Search from "./components/Search";
 import Table from "./components/Table";
 import useDataFetch from "./useDataFetch";
-import "./main.sass";
 
 export interface Products {
   [index: string]: string | number | string[];
