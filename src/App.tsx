@@ -34,12 +34,19 @@ function App() {
       setTotal(data.products.length);
       setOption(sessionStorage.getItem("option") as string);
       setSearchTxt(sessionStorage.getItem("searchTxt") as string);
+
+      /** 검색조건 및 결과 persist 코드 */
       const parse = JSON.parse(sessionStorage.getItem("result") as string);
-      console.log(parse);
       if (parse.length !== 0) {
         setRenderProducts(parse);
       } else {
         setRenderProducts(data.products);
+      }
+
+      /** page persist 코드 */
+      const storePage = Number(sessionStorage.getItem("page"));
+      if (storePage) {
+        setPage(storePage);
       }
     }
   }, [data]);

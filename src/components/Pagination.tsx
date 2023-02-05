@@ -1,4 +1,4 @@
-import { Products } from "../App";
+import { useEffect, useRef } from "react";
 
 interface Props {
   total: number;
@@ -16,6 +16,19 @@ export const Pagination = ({
   setPage,
 }: Props) => {
   const numPages = Math.ceil(total / limit);
+  const mounted = useRef(false);
+  console.log(mounted.current);
+  useEffect(() => {
+    if (mounted.current) {
+      console.log("page mounted true");
+      const storePage = String(page);
+      sessionStorage.setItem("page", storePage);
+    }
+  }, [page]);
+  const onClickPage = (i: number) => {
+    mounted.current = true;
+    setPage(i + 1);
+  };
 
   return (
     <>
@@ -34,17 +47,55 @@ export const Pagination = ({
         <button onClick={() => setPage(page - 1)} disabled={page === 1}>
           &lt;
         </button>
-        {Array(numPages)
+        {/* {Array(numPages)
           .fill(0)
           .map((_, i) => (
-            <button
-              key={i + 1}
-              onClick={() => setPage(i + 1)}
-              // aria-current={page === i + 1 ? "page" : null}
-            >
+            <button key={i + 1} onClick={() => setPage(i + 1)}>
               {i + 1}
             </button>
-          ))}
+          ))} */}
+        {page}
+        {page <= 4 &&
+          Array(numPages)
+            .fill(0)
+            .map(
+              (_, i) =>
+                i < 5 && (
+                  <button key={i + 1} onClick={() => onClickPage(i)}>
+                    {i + 1}
+                  </button>
+                )
+            )}
+        {page >= 5 && page <= 7}
+        {page > 6 &&
+          Array(numPages)
+            .fill(0)
+            .map(
+              (_, i) =>
+                i > 4 && (
+                  <button key={i + 1} onClick={() => onClickPage(i)}>
+                    {i + 1}
+                  </button>
+                )
+            )}
+        {/* {page >= numPages - 5 &&
+          Array(numPages)
+            .fill(0)
+            .map(
+              (_, i) =>
+                numPages - 5 < i && (
+                  <button key={i + 1} onClick={() => setPage(i + 1)}>
+                    {i + 1}
+                  </button>
+                )
+            )} */}
+        {/* {Array(numPages)
+          .fill(0)
+          .map((_, i) => (
+            <button key={i + 1} onClick={() => setPage(i + 1)}>
+              {i + 1}
+            </button>
+          ))} */}
         <button onClick={() => setPage(page + 1)} disabled={page === numPages}>
           &gt;
         </button>
