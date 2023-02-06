@@ -1,3 +1,4 @@
+import { MutableRefObject, useMemo } from "react";
 import { useEffect, useRef } from "react";
 import { Products } from "../App";
 
@@ -11,6 +12,7 @@ interface Props {
   totalProducts: Products[];
   isSearch: boolean;
   setIsSearch: React.Dispatch<React.SetStateAction<boolean>>;
+  setPage: React.Dispatch<React.SetStateAction<number>>;
 }
 
 const Search = ({
@@ -23,46 +25,54 @@ const Search = ({
   totalProducts,
   isSearch,
   setIsSearch,
+  setPage,
 }: Props) => {
+  const input = useRef<HTMLInputElement>(null);
   const mounted = useRef(false);
 
-  const onClick = () => {
+  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     sessionStorage.setItem("option", option);
     sessionStorage.setItem("searchTxt", searchTxt);
+    const lowerCaseSearch = searchTxt.toLocaleLowerCase();
     if (option === "전체") {
       setRenderProducts(
         totalProducts.filter((product) => {
           return (
-            product.title.includes(searchTxt) ||
-            product.brand.includes(searchTxt) ||
-            product.description.includes(searchTxt)
+            product.title.toLowerCase().includes(lowerCaseSearch) ||
+            product.brand.toLowerCase().includes(lowerCaseSearch) ||
+            product.description.toLowerCase().includes(lowerCaseSearch)
           );
         })
       );
     }
     if (option === "상품명") {
       setRenderProducts(
-        totalProducts.filter((product) => product.title.includes(searchTxt))
+        totalProducts.filter((product) =>
+          product.title.toLowerCase().includes(lowerCaseSearch)
+        )
       );
     }
     if (option === "브랜드") {
       setRenderProducts(
-        totalProducts.filter((product) => product.brand.includes(searchTxt))
+        totalProducts.filter((product) =>
+          product.brand.toLowerCase().includes(lowerCaseSearch)
+        )
       );
     }
     if (option === "상품내용") {
       setRenderProducts(
         totalProducts.filter((product) =>
-          product.description.includes(searchTxt)
+          product.description.toLowerCase().includes(lowerCaseSearch)
         )
       );
     }
     setIsSearch((prev) => !prev);
     mounted.current = true;
+    setPage(1);
   };
   useEffect(() => {
     if (mounted.current) {
-      console.log("why");
       const prevResult = JSON.stringify(renderProducts);
       sessionStorage.setItem("result", prevResult);
     }
@@ -71,22 +81,25 @@ const Search = ({
   return (
     <div>
       <div>검색</div>
-      <select
-        value={option}
-        onChange={({ target: { value } }) => setOption(value)}
-      >
-        <option value="전체">젠체</option>
-        <option value="상품명">상품명</option>
-        <option value="브랜드">브랜드</option>
-        <option value="상품내용">상품내용</option>
-      </select>
-      <div>
-        <input
-          value={searchTxt}
-          onChange={(e) => setSearchTxt(e.target.value)}
-        />
-      </div>
-      <button onClick={onClick}>조회</button>
+      <form onSubmit={(e) => onSubmit(e)}>
+        <select
+          value={option}
+          onChange={({ target: { value } }) => setOption(value)}
+        >
+          <option value="전체">젠체</option>
+          <option value="상품명">상품명</option>
+          <option value="브랜드">브랜드</option>
+          <option value="상품내용">상품내용</option>
+        </select>
+        <div>
+          <input
+            ref={input}
+            value={searchTxt}
+            onChange={(e) => setSearchTxt(e.target.value)}
+          />
+        </div>
+        <button>조회</button>
+      </form>
     </div>
   );
 };

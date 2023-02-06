@@ -32,8 +32,16 @@ function App() {
     if (data) {
       setTotalProducts(data.products);
       setTotal(data.products.length);
-      setOption(sessionStorage.getItem("option") as string);
-      setSearchTxt(sessionStorage.getItem("searchTxt") as string);
+
+      const optionInStore = sessionStorage.getItem("option") as string;
+      if (optionInStore) {
+        setOption(sessionStorage.getItem("option") as string);
+      }
+
+      const searchTxtInStore = sessionStorage.getItem("searchTxt") as string;
+      if (searchTxtInStore) {
+        setSearchTxt(sessionStorage.getItem("searchTxt") as string);
+      }
 
       /** 검색조건 및 결과 persist 코드 */
       const parse = JSON.parse(sessionStorage.getItem("result") as string);
@@ -45,8 +53,10 @@ function App() {
 
       /** page persist 코드 */
       const storePage = Number(sessionStorage.getItem("page"));
-      if (storePage) {
+      if (storePage !== 0) {
         setPage(storePage);
+      } else {
+        setPage(1);
       }
     }
   }, [data]);
@@ -63,6 +73,7 @@ function App() {
         totalProducts={totalProducts}
         isSearch={isSearch}
         setIsSearch={setIsSearch}
+        setPage={setPage}
       />
       <div>검색한 테이터: {total}건</div>
       <Table offset={offset} renderProducts={renderProducts} limit={limit} />
