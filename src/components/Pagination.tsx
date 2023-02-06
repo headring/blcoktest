@@ -31,7 +31,9 @@ export const Pagination = ({
   };
   const onMinusPage = (page: number) => {
     mounted.current = true;
-    setPage(page - 1);
+    if (page - 1 !== 0) {
+      setPage(page - 1);
+    }
   };
   const onPlusPage = (page: number) => {
     mounted.current = true;
@@ -48,13 +50,17 @@ export const Pagination = ({
 
   const pageBtns = (page: number, numPages: number) => {
     if (numPages <= 5) {
-      return Array(numPages)
-        .fill(0)
-        .map((_, i) => (
-          <button key={i + 1} onClick={() => onClickPage(i)}>
-            {i + 1}
+      let btns: number[] = [];
+      for (let i = 0; i < numPages; i++) {
+        btns.push(i + 1);
+      }
+      return btns.map((btn) => {
+        return (
+          <button key={btn} onClick={() => onClickPage(btn)}>
+            {btn}
           </button>
-        ));
+        );
+      });
     } else if (numPages >= 6) {
       if (page <= 4) {
         let btns = [1, 2, 3, 4];
@@ -92,6 +98,11 @@ export const Pagination = ({
       }
     }
   };
+  const pageRowLimit = (value: number) => {
+    setPage(1);
+    setLimit(value);
+    sessionStorage.setItem("page", "1");
+  };
 
   return (
     <>
@@ -99,7 +110,7 @@ export const Pagination = ({
         페이지 당 행:&nbsp;
         <select
           value={limit}
-          onChange={({ target: { value } }) => setLimit(Number(value))}
+          onChange={({ target: { value } }) => pageRowLimit(Number(value))}
         >
           <option value="10">10</option>
           <option value="20">20</option>
@@ -126,98 +137,3 @@ export const Pagination = ({
     </>
   );
 };
-
-//  {
-//    numPages <= 5 ? (
-//      Array(numPages)
-//        .fill(0)
-//        .map((_, i) => (
-//          <button key={i + 1} onClick={() => setPage(i + 1)}>
-//            {i + 1}
-//          </button>
-//        ))
-//    ) : (
-//      // 현재 page가 4라면?
-//      // 현재 page가 7이라면?
-//      <div>hi</div>
-//    );
-//  }
-//  {
-//    /* {Array(numPages)
-//           .fill(0)
-//           .map((_, i) => (
-//             <button key={i + 1} onClick={() => setPage(i + 1)}>
-//               {i + 1}
-//             </button>
-//           ))} */
-//  }
-//  {
-//    /* {page} */
-//  }
-//  {
-//    /* {page <= 4 &&
-//           Array(numPages)
-//             .fill(0)
-//             .map(
-//               (_, i) =>
-//                 i < 5 && (
-//                   <button key={i + 1} onClick={() => onClickPage(i)}>
-//                     {i + 1}
-//                   </button>
-//                 )
-//             )} */
-//  }
-//  {
-//    /* 456 */
-//  }
-//  {
-//    /* 567 */
-//  }
-//  {
-//    /* {page >= 5 &&
-//           page <= 6 &&
-//           Array(numPages)
-//             .fill(0)
-//             .map(
-//               (_, i) =>
-//                 i > 3 &&
-//                 i < 7 && (
-//                   <button key={i + 1} onClick={() => onClickPage(i)}>
-//                     {i + 1}
-//                   </button>
-//                 )
-//             )}
-//         {page > 6 &&
-//           Array(numPages)
-//             .fill(0)
-//             .map(
-//               (_, i) =>
-//                 i > 4 && (
-//                   <button key={i + 1} onClick={() => onClickPage(i)}>
-//                     {i + 1}
-//                   </button>
-//                 )
-//             )} */
-//  }
-//  {
-//    /* {page >= numPages - 5 &&
-//           Array(numPages)
-//             .fill(0)
-//             .map(
-//               (_, i) =>
-//                 numPages - 5 < i && (
-//                   <button key={i + 1} onClick={() => setPage(i + 1)}>
-//                     {i + 1}
-//                   </button>
-//                 )
-//             )} */
-//  }
-//  {
-//    /* {Array(numPages)
-//           .fill(0)
-//           .map((_, i) => (
-//             <button key={i + 1} onClick={() => setPage(i + 1)}>
-//               {i + 1}
-//             </button>
-//           ))} */
-//  }
