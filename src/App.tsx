@@ -37,7 +37,7 @@ function App() {
 
       /** 검색조건 및 결과 persist 코드 */
       const parse = JSON.parse(sessionStorage.getItem("result") as string);
-      if (parse.length !== 0) {
+      if (parse) {
         setRenderProducts(parse);
       } else {
         setRenderProducts(data.products);
