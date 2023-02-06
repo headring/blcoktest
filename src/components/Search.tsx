@@ -1,4 +1,3 @@
-import { MutableRefObject, useMemo } from "react";
 import { useEffect, useRef } from "react";
 import { Products } from "../App";
 
@@ -76,6 +75,7 @@ const Search = ({
       const prevResult = JSON.stringify(renderProducts);
       sessionStorage.setItem("result", prevResult);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isSearch]);
 
   return (
@@ -86,7 +86,7 @@ const Search = ({
           value={option}
           onChange={({ target: { value } }) => setOption(value)}
         >
-          <option value="전체">젠체</option>
+          <option value="전체">전체</option>
           <option value="상품명">상품명</option>
           <option value="브랜드">브랜드</option>
           <option value="상품내용">상품내용</option>
