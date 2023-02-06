@@ -63,7 +63,7 @@ export const Pagination = ({
       });
     } else if (numPages >= 6) {
       if (page <= 4) {
-        let btns = [1, 2, 3, 4];
+        let btns = [1, 2, 3, 4, 5];
         return btns.map((btn) => {
           return (
             <button key={btn} onClick={() => onClickPage(btn)}>
