@@ -33,14 +33,22 @@ function App() {
       setTotalProducts(data.products);
       setTotal(data.products.length);
 
+      /** 검색옵션 persist 코드 */
       const optionInStore = sessionStorage.getItem("option") as string;
       if (optionInStore) {
         setOption(sessionStorage.getItem("option") as string);
       }
 
+      /** 검색단어 persist 코드 */
       const searchTxtInStore = sessionStorage.getItem("searchTxt") as string;
       if (searchTxtInStore) {
         setSearchTxt(sessionStorage.getItem("searchTxt") as string);
+      }
+
+      /** 페이지당 행 persist 코드 */
+      const limitInStore = sessionStorage.getItem("limit");
+      if (limitInStore) {
+        setLimit(Number(limitInStore));
       }
 
       /** 검색조건 및 결과 persist 코드 */

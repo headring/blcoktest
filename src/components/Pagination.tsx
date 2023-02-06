@@ -102,6 +102,7 @@ export const Pagination = ({
     setPage(1);
     setLimit(value);
     sessionStorage.setItem("page", "1");
+    sessionStorage.setItem("limit", String(value));
   };
 
   return (
