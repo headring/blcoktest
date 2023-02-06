@@ -1,3 +1,28 @@
+## 시작하기
+download pkg
+> npm i
+
+start dev
+>npm run start 
+
+## 설치 라이브러리
+
+1. React v18
+2. tanstack-query(v4)
+3. redux-toolkit(미사용 / 설치 후 삭제)
+4. sass(미사용)
+
+## 화면 시연
+1. pagination. 
+
+![페이지네이션](https://user-images.githubusercontent.com/48895268/216913277-f922512a-6a5a-407c-8400-6ae98681e706.gif)
+
+2. persist. 
+
+![영속성](https://user-images.githubusercontent.com/48895268/216913286-10effb56-aa7c-49d9-8ac6-171fa3bb79c8.gif)
+
+
+
 ## 커밋 메시지 컨벤션
 
 <div align=center>
